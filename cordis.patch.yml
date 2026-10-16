@@ -1,0 +1,19 @@
+# dsh-tool-mathfig 组合包补丁（bundle patch）
+#
+# 这一层由本包自己声明：profile 的 package.json 里 dsh.profile.bundles 列出本包名即可生效，
+# 不需要用户再手改 ~/.dsh/profiles/<profile>/cordis.patch.yml。
+#
+# 用户要覆盖默认配置，就在 profile 的 cordis.patch.yml 里按同一 id 写一行（后写覆盖先写）。
+- insert:
+    - id: tool-mathfig
+      name: dsh-tool-mathfig
+      config:
+        # 带 matplotlib 的 Python 解释器（本机唯一装了它的就是 C:\Python314）
+        pythonPath: 'C:\Python314\python.exe'
+        # 额外的落盘目录；留 null 则图只作为附件内联返回（需要文件时用工具参数 savePath）
+        outputDir: null
+        # 公式默认字号 / 分辨率
+        defaultFontsize: 26
+        defaultDpi: 300
+        # 单次渲染超时（毫秒）。首次调用 matplotlib 要建字体缓存，会慢十几秒
+        timeoutMs: 240000

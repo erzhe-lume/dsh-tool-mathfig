@@ -1,0 +1,57 @@
+{
+  "name": "dsh-tool-mathfig",
+  "version": "0.1.0",
+  "description": "公式与数学插图工具：LaTeX 公式转 PNG（离线）、参数化几何/曲面模板、数值自校验。DeepSeek Harness 插件，适配 @deepseek-ai/dsh 0.1.0-rc.6 / 0.2.0-rc.2。",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "files": [
+    "lib",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "keywords": [
+    "dsh-plugin",
+    "dsh",
+    "deepseek-harness",
+    "deepseek",
+    "harness",
+    "cordis",
+    "dsh-tool",
+    "plugin",
+    "latex",
+    "math",
+    "formula",
+    "figure",
+    "matplotlib",
+    "geometry",
+    "visualization"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.1",
+    "@deepseek-ai/dsh-tools": "^0.1.0-rc.6 || ^0.2.0-rc.1",
+    "@deepseek-ai/schemastery": "^3.18.1"
+  },
+  "author": "erzhe-lume",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/erzhe-lume/dsh-tool-mathfig.git"
+  },
+  "homepage": "https://github.com/erzhe-lume/dsh-tool-mathfig#readme",
+  "bugs": {
+    "url": "https://github.com/erzhe-lume/dsh-tool-mathfig/issues"
+  }
+}
