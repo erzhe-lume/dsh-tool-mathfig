@@ -53,5 +53,9 @@
   "homepage": "https://github.com/erzhe-lume/dsh-tool-mathfig#readme",
   "bugs": {
     "url": "https://github.com/erzhe-lume/dsh-tool-mathfig/issues"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   }
 }

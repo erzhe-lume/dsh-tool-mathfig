@@ -1,12 +1,14 @@
 # dsh-tool-mathfig
 
+[![npm version](https://img.shields.io/npm/v/dsh-tool-mathfig)](https://www.npmjs.com/package/dsh-tool-mathfig) [![license](https://img.shields.io/npm/l/dsh-tool-mathfig)](https://github.com/erzhe-lume/dsh-tool-mathfig/blob/main/LICENSE) [![DeepSeek Harness](https://img.shields.io/badge/DSH-0.1.0--rc.6%20%7C%200.2.0--rc.2-4c8fd6)](https://github.com/deepseek-ai)
+
 **公式与数学插图工具** —— 给 [DeepSeek Harness](https://github.com/deepseek-ai) 的 Cordis 插件。
 
 LaTeX 公式转 PNG（离线，不需要 LaTeX 发行版 / 浏览器 / 联网）、参数化几何与曲面模板、以及每次出图的数值自校验。
 
 > Formula & math-figure tools for DeepSeek Harness: LaTeX → PNG (fully offline), parameterised geometry templates, numeric self-check.
 
-![演示](docs/demo.png)
+![演示](https://raw.githubusercontent.com/erzhe-lume/dsh-tool-mathfig/main/docs/demo.png)
 
 <sub>上：`figure_formula` 渲染的公式（含 cases 分段、vmatrix 行列式、underbrace 中文标注）。下：`figure_template` 的「球缺与球冠」模板。</sub>
 

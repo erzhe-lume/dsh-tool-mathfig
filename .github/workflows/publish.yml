@@ -1,0 +1,50 @@
+name: Publish to npm
+
+# 两种触发方式：
+#   1) 推 tag（v0.1.0 这种）—— 会先校验 tag 与 package.json 版本一致，再发布
+#   2) 手动触发（Actions → 本 workflow → Run workflow）—— 用于首次发布或补发
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write # npm provenance（来源证明）需要
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org
+
+      # tag 与 package.json 版本必须一致，避免把 v0.2.0 发成 0.1.0
+      - name: 校验 tag 与 package.json 版本一致
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          PKG="v$(node -p "require('./package.json').version")"
+          echo "tag=${GITHUB_REF_NAME}  package.json=${PKG}"
+          if [ "$PKG" != "${GITHUB_REF_NAME}" ]; then
+            echo "::error::tag ${GITHUB_REF_NAME} 与 package.json 的版本 ${PKG} 不一致"
+            exit 1
+          fi
+
+      # 不装 Python 依赖：只做语法解析，保证发出去的脚本不是坏文件
+      - name: Python 侧语法检查
+        run: python3 -m py_compile lib/py/*.py lib/py/templates/*.py
+
+      - name: 查看将要发布的内容
+        run: |
+          node -e "const p=require('./package.json');console.log(p.name+'@'+p.version)"
+          npm pack --dry-run
+
+      - name: 发布到 npm
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
