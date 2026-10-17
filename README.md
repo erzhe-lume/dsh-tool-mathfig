@@ -1,6 +1,6 @@
 # dsh-tool-mathfig
 
-[![npm version](https://img.shields.io/npm/v/dsh-tool-mathfig)](https://www.npmjs.com/package/dsh-tool-mathfig) [![license](https://img.shields.io/npm/l/dsh-tool-mathfig)](https://github.com/erzhe-lume/dsh-tool-mathfig/blob/main/LICENSE) [![DeepSeek Harness](https://img.shields.io/badge/DSH-0.1.0--rc.6%20%7C%200.2.0--rc.2-4c8fd6)](https://github.com/deepseek-ai)
+[![npm version](https://img.shields.io/npm/v/dsh-tool-mathfig)](https://www.npmjs.com/package/dsh-tool-mathfig) [![license](https://img.shields.io/npm/l/dsh-tool-mathfig)](https://github.com/erzhe-lume/dsh-tool-mathfig/blob/main/LICENSE) [![DeepSeek Harness](https://img.shields.io/badge/DSH-0.1.0--rc.6%20%7C%200.2.x-4c8fd6)](https://github.com/deepseek-ai)
 
 **公式与数学插图工具** —— 给 [DeepSeek Harness](https://github.com/deepseek-ai) 的 Cordis 插件。
 
@@ -89,6 +89,7 @@ cd ~/.dsh/profiles/<profile>
 |:--|:--|
 | `@deepseek-ai/dsh 0.1.0-rc.6` | `"@deepseek-ai/dsh-tools": "^0.1.0-rc.6 \|\| ^0.2.0-rc.1"` |
 | `@deepseek-ai/dsh 0.2.0-rc.2` | 同上（并集覆盖两条线） |
+| `@deepseek-ai/dsh 0.2.1-rc.2` | 同上（`^0.2.0-rc.1` 上界 `<0.3.0`，自动覆盖 0.2.x 后续版本） |
 
 注意 `^0.1.0-rc.6` 的上界是 `<0.2.0`——**只写这一条，host 升到 0.2.x 后会被版本闸门拒绝加载**，
 所以要用 `||` 并列多条发行线。`cordis`（4.x）与 `schemastery`（3.x）不在 DSH 的 0.x 锁步线上，写 `^4.0.1` / `^3.18.1` 即可。
