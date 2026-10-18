@@ -1,6 +1,6 @@
 {
   "name": "dsh-tool-mathfig",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "公式与数学插图工具：LaTeX 公式离线转 PNG、参数化几何/曲面模板、数值自校验。DeepSeek Harness 插件（适配 @deepseek-ai/dsh 0.1.0-rc.6 与 0.2.x）。",
   "type": "module",
   "main": "lib/index.js",
