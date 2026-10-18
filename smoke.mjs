@@ -4,6 +4,31 @@ const PLUGIN = "file:///D:/DeepSeek/mathfig-plugin/dsh-tool-mathfig/lib/index.js
 const os = await import("node:os");
 const path = await import("node:path");
 
+
+// ---- DSH 只接受无损 JSON 的工具返回值：这里逐字复刻 host 的 visitJsonValue 规则，
+// ---- 任何嵌套 undefined / -0 / NaN / 非 Object.prototype 原型都会让整个调用失败。
+function visitJsonValue(value, ancestors = new Set()) {
+  if (value === null || typeof value === "string" || typeof value === "boolean") return true;
+  if (typeof value === "number") return Number.isFinite(value) && !Object.is(value, -0);
+  if (typeof value !== "object") return false;
+  if (ancestors.has(value)) return false;
+  ancestors.add(value);
+  if (Array.isArray(value)) {
+    if (Object.getPrototypeOf(value) !== Array.prototype) return false;
+    for (let i = 0; i < value.length; i++)
+      if (!Object.hasOwn(value, i) || !visitJsonValue(value[i], ancestors)) return false;
+    return true;
+  }
+  const proto = Object.getPrototypeOf(value);
+  if (proto !== Object.prototype && proto !== null) return false;
+  for (const k of Reflect.ownKeys(value)) {
+    if (typeof k !== "string") return false;
+    if (!Object.prototype.propertyIsEnumerable.call(value, k)) return false;
+    if (!visitJsonValue(value[k], ancestors)) return false;
+  }
+  return true;
+}
+
 const mod = await import(PLUGIN);
 console.log("模块导出:", Object.keys(mod).join(", "));
 
@@ -58,3 +83,16 @@ console.log(r3.report);
 const r4 = await by.figure_formula.execute({ tex: "\\begin{tabular}{cc}a&b\\end{tabular}" });
 console.log("\n[错误路径] ok=" + r4.ok);
 console.log(r4.report.split("\n").slice(0, 3).join("\n"));
+
+// ---- 无损 JSON 回归：任何一次工具返回都必须能被 host 接受
+const _checked = [];
+function audit(name, value) {
+  const ok = visitJsonValue(value);
+  _checked.push(name + "=" + (ok ? "ok" : "FAIL"));
+  if (!ok) { console.error("✗ " + name + " 的返回值不是无损 JSON（DSH 会拒绝整次调用）"); process.exitCode = 1; }
+}
+audit("figure_formula", r1);
+audit("figure_template", r2);
+audit("figure_selftest", r3);
+audit("figure_formula(错误路径)", r4);
+console.log("无损 JSON 检查: " + _checked.join("  "));
